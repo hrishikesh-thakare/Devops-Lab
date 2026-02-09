@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Result Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-hover: #4f46e5;
+        --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --card-bg: rgba(255, 255, 255, 0.95);
+        --text-main: #1f2937;
+        --text-muted: #6b7280;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Outfit", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-gradient);
+        padding: 20px;
+      }
+
+      .container {
+        background: var(--card-bg);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow:
+          0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        width: 100%;
+        max-width: 450px;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease;
+      }
+
+      h1 {
+        color: var(--text-main);
+        font-size: 1.875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-align: center;
+      }
+
+      p.subtitle {
+        color: var(--text-muted);
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 0.95rem;
+      }
+
+      .input-group {
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-main);
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.2s;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+      }
+
+      button {
+        width: 100%;
+        padding: 0.875rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 1rem;
+      }
+
+      button:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .results {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+        display: none;
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .result-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+      }
+
+      .result-label {
+        color: var(--text-muted);
+        font-weight: 400;
+      }
+
+      .result-value {
+        color: var(--text-main);
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .percentage-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        background: #dcfce7;
+        color: #15803d;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Result Calculator</h1>
+      <p class="subtitle">Enter your marks to calculate results</p>
+
+      <div class="input-group">
+        <label for="marks1">Subject 1 Marks</label>
+        <input
+          type="number"
+          id="marks1"
+          placeholder="Enter marks (0-100)"
+          min="0"
+          max="100"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="marks2">Subject 2 Marks</label>
+        <input
+          type="number"
+          id="marks2"
+          placeholder="Enter marks (0-100)"
+          min="0"
+          max="100"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="marks3">Subject 3 Marks</label>
+        <input
+          type="number"
+          id="marks3"
+          placeholder="Enter marks (0-100)"
+          min="0"
+          max="100"
+        />
+      </div>
+
+      <button onclick="calculateResults()">Calculate Results</button>
+
+      <div id="resultsArea" class="results">
+        <div class="result-item">
+          <span class="result-label">Total Marks</span>
+          <span id="totalMarks" class="result-value">0</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Average</span>
+          <span id="averageMarks" class="result-value">0</span>
+        </div>
+        <div
+          class="result-item"
+          style="align-items: center; margin-top: 0.5rem"
+        >
+          <span class="result-label">Grade Status</span>
+          <span id="statusBadge" class="percentage-badge">Passed</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function calculateResults() {
+        const m1 = parseFloat(document.getElementById("marks1").value) || 0;
+        const m2 = parseFloat(document.getElementById("marks2").value) || 0;
+        const m3 = parseFloat(document.getElementById("marks3").value) || 0;
+
+        if (m1 > 100 || m2 > 100 || m3 > 100 || m1 < 0 || m2 < 0 || m3 < 0) {
+          alert("Please enter valid marks between 0 and 100");
+          return;
+        }
+
+        const total = m1 + m2 + m3;
+        const average = (total / 3).toFixed(2);
+
+        document.getElementById("totalMarks").innerText = total;
+        document.getElementById("averageMarks").innerText = average + "%";
+
+        const badge = document.getElementById("statusBadge");
+        if (average >= 40 && m1 >= 33 && m2 >= 33 && m3 >= 33) {
+          badge.innerText = "Pass";
+          badge.style.background = "#dcfce7";
+          badge.style.color = "#15803d";
+        } else {
+          badge.innerText = "Fail";
+          badge.style.background = "#fee2e2";
+          badge.style.color = "#991b1b";
+        }
+
+        document.getElementById("resultsArea").style.display = "block";
+      }
+    </script>
+  </body>
+</html>
