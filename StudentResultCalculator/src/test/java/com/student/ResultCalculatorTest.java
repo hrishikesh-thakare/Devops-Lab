@@ -16,7 +16,8 @@ public class ResultCalculatorTest {
         WebDriver driver = new ChromeDriver();
 
         driver.manage().window().maximize();
-        driver.get("http://localhost:8000/StudentResultCalculator/index.html");  // Updated path
+        java.io.File file = new java.io.File("index.html");
+        driver.get("file:///" + file.getAbsolutePath());
 
         driver.findElement(By.id("marks1")).sendKeys("70");
         driver.findElement(By.id("marks2")).sendKeys("80");
